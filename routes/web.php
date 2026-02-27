@@ -3,10 +3,13 @@
 use App\Http\Controllers\Auth\Login;
 use App\Http\Controllers\Auth\Logout;
 use App\Http\Controllers\ChirpController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\Register;
 
-
+Route::get('/users/search',function () {
+    return 'ROTA OK';
+});
 // Chirps routes
 Route::get('/', [ChirpController::class, 'index']);
 
@@ -34,3 +37,14 @@ Route::view('/login', 'auth.login')
 
 Route::post('/login', Login::class)
     ->middleware('guest');
+
+
+// User routes
+Route::middleware('auth')->group(function () {
+    Route::get('/users/search', [UserController::class, 'search'])
+        ->name('users.search');
+
+    Route::get('/user/{user}', [UserController::class, 'show'])
+        ->name('users.show');
+});
+

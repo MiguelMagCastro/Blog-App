@@ -61,6 +61,20 @@
                 </defs>
             </svg></a>
     </div>
+
+    <!-- 🔍 Barra de pesquisa central -->
+    <div class="navbar-center">
+        <form action="{{ route('users.search') }}" method="GET" class="form-control">
+            <input
+                type="text"
+                name="search"
+                placeholder="Pesquisar usuários..."
+                class="input input-bordered w-64 md:w-80"
+                value="{{ request('search') }}"
+            />
+        </form>
+    </div>
+
     <div class="navbar-end gap-4 px-4">
         @auth
             <span class="text-sm">{{ auth()->user()->name }}</span>

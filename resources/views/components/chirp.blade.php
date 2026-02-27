@@ -28,9 +28,20 @@
                     <div class="flex justify-between w-full">
 
                         <div class="flex items-center gap-1">
-                            <span class="text-sm font-semibold">{{ $chirp->user ? $chirp->user->name : 'Anonymous' }}</span>
+                            @if($chirp->user)
+                                <a href="{{ url('/user/' . $chirp->user->id) }}"
+                                   class="text-sm font-semibold hover:underline text-primary">
+                                    {{ $chirp->user->name }}
+                                </a>
+                            @else
+                                <span class="text-sm font-semibold">Anonymous</span>
+                            @endif
+
                             <span class="text-base-content/60">·</span>
-                            <span class="text-sm text-base-content/60">{{ $chirp->created_at->diffForHumans() }}</span>
+                            <span class="text-sm text-base-content/60">
+                                {{ $chirp->created_at->diffForHumans() }}
+                            </span>
+
                             @if ($chirp->updated_at->gt($chirp->created_at->addSeconds(5)))
                                 <span class="text-base-content/60">·</span>
                                 <span class="text-sm text-base-content/60 italic">edited</span>
@@ -52,3 +63,4 @@
                 </div>
         </div>
     </div>
+</div>
