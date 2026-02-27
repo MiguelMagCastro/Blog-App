@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Models\Chirp;
+use App\Policies\ChirpPolicy;
+
 
 class AppServiceProvider extends ServiceProvider
 {
