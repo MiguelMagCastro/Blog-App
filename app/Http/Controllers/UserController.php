@@ -43,14 +43,22 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $chirps = $user->chirps()
-            ->latest()
-            ->take(50)
-            ->get();
+        $chirps = $user->chirps()->latest()->get();
+
+        $followersCount = $user->followers()->count();
+
+        $followingCount = $user->following()->count();
+
+        $isFollowing = auth()->check()
+            ? $user->followers()->where('follower_id', auth()->id())->exists()
+            : false;
 
         return view('users.profile', [
             'user' => $user,
             'chirps' => $chirps,
+            'followersCount' => $followersCount,
+            'followingCount' => $followingCount,
+            'isFollowing' => $isFollowing,
         ]);
     }
 
@@ -86,5 +94,23 @@ class UserController extends Controller
 
         return view('users.search', compact('users', 'search'));
     }
+
+
+
+    public function follow(User $user)
+    {
+        $authUser = auth()->user();
+
+        if ($authUser->id === $user->id) {
+            return back();
+        }
+
+        $user->toggleFollow(auth()->user());
+
+        return back();
+    }
+
+
+
 
 }

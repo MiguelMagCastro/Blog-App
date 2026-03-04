@@ -93,6 +93,10 @@ class ChirpController extends Controller
         return redirect('/')->with('success', 'Chirp deleted!');
     }
 
-    
+    public function like(Chirp $chirp)
+    {
+        $chirp->toggleLike(auth()->user());
+        return back();
+    }
 
 }

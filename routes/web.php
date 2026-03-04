@@ -46,5 +46,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/user/{user}', [UserController::class, 'show'])
         ->name('users.show');
+
+    Route::post('/user/{user}/follow', [UserController::class, 'follow'])
+        ->name('user.follow');
+
+    Route::post('/chirps/{chirp}/like', [ChirpController::class, 'like'])
+        ->name('chirps.like');
 });
 

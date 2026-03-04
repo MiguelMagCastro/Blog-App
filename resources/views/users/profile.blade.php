@@ -4,7 +4,8 @@
 
         <!-- Card do perfil -->
         <div class="card bg-base-100 shadow">
-            <div class="card-body items-center text-center space-y-2">
+            <div class="card-body items-center text-center space-y-3">
+
                 <div class="avatar">
                     <div class="size-20 rounded-full">
                         <img
@@ -16,15 +17,48 @@
                 </div>
 
                 <h2 class="text-2xl font-bold">{{ $user->name }}</h2>
+
                 <p class="text-sm text-base-content/60">
                     criado em {{ $user->created_at->format('M Y') }}
                 </p>
 
+                <!-- Botão seguir -->
+                @auth
+                    @if(auth()->id() !== $user->id)
+                        <form method="POST" action="{{ route('user.follow', $user->id) }}">
+                            @csrf
+
+                            <button
+                                class="btn btn-wide btn-sm {{ $isFollowing ? 'btn-secondary' : 'btn-outline btn-primary' }}">
+                                {{ $isFollowing ? 'Seguindo' : 'Seguir' }}
+                            </button>
+                        </form>
+                    @endif
+                @endauth
+
+                <!-- Stats -->
                 <div class="stats shadow mt-4">
-                    <div class="stat">
-                        <div class="stat-title">Chirps</div>
-                        <div class="stat-value">{{ $chirps->count() }}</div>
+
+                    <!-- Stats -->
+                    <div class="stats shadow mt-4">
+
+                        <div class="stat">
+                            <div class="stat-title">Chirps</div>
+                            <div class="stat-value">{{ $chirps->count() }}</div>
+                        </div>
+
+                        <div class="stat">
+                            <div class="stat-title">Seguidores</div>
+                            <div class="stat-value">{{ $followersCount }}</div>
+                        </div>
+
+                        <div class="stat">
+                            <div class="stat-title">Seguindo</div>
+                            <div class="stat-value">{{ $followingCount }}</div>
+                        </div>
+
                     </div>
+
                 </div>
             </div>
         </div>
